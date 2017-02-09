@@ -2,13 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DbContextInherit.DbContexts;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DbContextInherit.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        public ValuesController(IServiceProvider serviceProvider)
+        {
+            var dbContextOptions = serviceProvider.GetService(typeof(DbContextOptions));
+            var specCC = serviceProvider.GetService(typeof(SpecificCommandContext));
+            var nonSpecCC = serviceProvider.GetService(typeof(NonSpecificCommandContext));
+            var commandContext = serviceProvider.GetService(typeof(CommandContext));
+
+            var queryContext = serviceProvider.GetService(typeof(QueryContext));
+        }
+
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
